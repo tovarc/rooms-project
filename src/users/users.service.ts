@@ -11,6 +11,31 @@ export class UsersService {
       where: {
         email,
       },
+      include: {
+        role: true,
+      },
     });
+  }
+
+  async create(data: {
+    name: string;
+    email: string;
+    password: string;
+    admin?: boolean;
+  }) {
+    const newUser = await this.prisma.users.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: {
+          connect: {
+            role: data.admin ? 'admin' : 'student',
+          },
+        },
+      },
+    });
+
+    return newUser;
   }
 }

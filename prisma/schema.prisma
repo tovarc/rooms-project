@@ -29,3 +29,38 @@ model Roles {
   Users Users[]
   @@unique([role], map: "roleShouldBeUnique")
 }
+
+model Professors {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  designation String
+  phone       String
+  email       String
+  room        Rooms    @relation(fields: [roomId], references: [id])
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  roomId String @db.ObjectId
+  @@unique([email], map: "emailShouldBeUnique")
+}
+
+model Rooms {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  booked      Boolean      @default(false)
+  booked_from DateTime?
+  booked_to   DateTime?
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  Professors  Professors[]
+}
+
+model News {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  link        String
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}

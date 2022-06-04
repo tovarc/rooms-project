@@ -17,6 +17,6 @@ export class AuthController {
 
   @Get('profile')
   getProfile(@User() user: IUser) {
-    return user;
+    return this.authService.profile(user);
   }
 }
